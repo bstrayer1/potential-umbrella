@@ -1,0 +1,12 @@
+SELECT activity.loan_file_id,
+                   activity.id,
+                   activity.name,
+                   activity.created_at,
+                   ast.from_substate,
+                   ast.to_substate,
+                   ast.created_at as finished_at
+            FROM activity left join activity_substate_transition ast on activity.id = ast.activity_id
+            WHERE activity.name IN ('OrderAppraisal', 'ProcessAppraisalV3', 'ProcessAppraisalV2', 'ProcessAppraisal')
+                    AND activity.is_deleted = 'False'
+    ORDER BY loan_file_id
+    LIMIT 100
